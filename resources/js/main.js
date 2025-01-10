@@ -7,6 +7,50 @@ $(function() {
     // $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
 });
 
+const menu = [{
+    label: "&File",
+    submenu: [{
+        label: "Open File",
+        click: openFile
+    }, {
+        label: "Resent",
+        submenu: [{
+            label: "Option 1",
+            click: () => {
+                console.log("Option 1 clicked");
+            }
+        }, {
+            label: "Option 2",
+            click: () => {
+                console.log("Option 2 clicked");
+            }
+        }],
+        accelerator: "F2"
+    }, {
+        label: "Menu Entry 3",
+        enabled: false,
+        id: "myMenuItem",
+        accelerator: "F3"
+    }]
+}, {
+    label: "&Option",
+    submenu: [{
+        label: "Mode",
+        click: () => {  }
+    }, {
+        label: "Setting",
+        click: () => {  }
+    }, {
+        label: "About",
+        click: () => { Neutralino.os.showMessageBox("Version information",
+            `Neutralinojs server: v${NL_VERSION} | Neutralinojs client: v${NL_CVERSION}`)}
+    }]
+}];
+
+const myMenu = Menu.buildFromTemplate(menu);
+Menu.setApplicationMenu(myMenu);
+
+
 // openFile open markdown file
 function openFile() {
     Neutralino.os.showOpenDialog('Open Markdown file', {

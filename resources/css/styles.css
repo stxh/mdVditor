@@ -24,4 +24,5 @@ body {
 
 .contain {
     width: 95%;
+    margin: 0 auto; /* 水平居中 */
 }
