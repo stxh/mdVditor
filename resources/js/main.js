@@ -1,9 +1,11 @@
 // main
 //
+// import { marked } from '../../node_modules/marked';
 
-$.redeay(
-    alert("ok")
-)
+$(function() {
+    // alert("ok");
+    $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
+});
 
 function showInfo() {
     document.getElementById('info').innerHTML = `
@@ -33,6 +35,7 @@ function setTray() {
         icon: "/resources/icons/trayIcon.png",
         menuItems: [
             {id: "VERSION", text: "Get version"},
+            {id: "OPEN", text: "Open File"},
             {id: "SEP", text: "-"},
             {id: "QUIT", text: "Quit"}
         ]
@@ -54,6 +57,8 @@ function onTrayMenuItemClicked(event) {
             Neutralino.os.showMessageBox("Version information",
                 `Neutralinojs server: v${NL_VERSION} | Neutralinojs client: v${NL_CVERSION}`);
             break;
+        case "OPEN":
+            break;
         case "QUIT":
             // Exit the application
             Neutralino.app.exit();
@@ -72,3 +77,9 @@ function onWindowClose() {
 if(NL_OS != "Darwin") { // TODO: Fix https://github.com/neutralinojs/neutralinojs/issues/615
     setTray();
 }
+
+Neutralino.init()
+
+// Register event listeners
+Neutralino.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
+Neutralino.events.on("windowClose", onWindowClose);
