@@ -2,10 +2,7 @@
 //
 // import { marked } from '../../node_modules/marked';
 
-$(function() {
-    // alert("ok");
-    // $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
-});
+const { Menu, MenuItem } = NeutralinoMenuBar;
 
 const menu = [{
     label: "&File",
@@ -47,9 +44,14 @@ const menu = [{
     }]
 }];
 
-const myMenu = Menu.buildFromTemplate(menu);
-Menu.setApplicationMenu(myMenu);
+$(function() {
 
+    const myMenu = Menu.buildFromTemplate(menu);
+    Menu.setApplicationMenu(myMenu);
+    
+    // alert("ok");
+    // $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
+});
 
 // openFile open markdown file
 function openFile() {
@@ -151,3 +153,4 @@ Neutralino.init()
 // Register event listeners
 Neutralino.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
 Neutralino.events.on("windowClose", onWindowClose);
+
