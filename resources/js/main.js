@@ -4,8 +4,31 @@
 
 $(function() {
     // alert("ok");
-    $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
+    // $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
 });
+
+// openFile open markdown file
+function openFile() {
+    Neutralino.os.showOpenDialog('Open Markdown file', {
+        defaultPath: '',
+        filters: [
+          {name: 'markdown', extensions: ['md']},
+          {name: 'txt', extensions: ['txt']}
+        ]
+      }) .then((filename) => {
+        // console.log("open file:", filename)
+        Neutralino.filesystem.readFile(filename[0])
+            .then((contain) => {
+                $('#md').html(marked.parse(contain))
+            })
+            .catch((error) => {
+                console.error("读取文件出错:", error)
+            })
+      })
+      .catch((error) => {
+        console.error("读取文件出错:", error); // 处理失败的情况
+      });
+}
 
 function showInfo() {
     document.getElementById('info').innerHTML = `
@@ -58,6 +81,7 @@ function onTrayMenuItemClicked(event) {
                 `Neutralinojs server: v${NL_VERSION} | Neutralinojs client: v${NL_CVERSION}`);
             break;
         case "OPEN":
+            openFile()
             break;
         case "QUIT":
             // Exit the application
