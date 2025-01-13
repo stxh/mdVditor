@@ -216,3 +216,5 @@ ERROR 2025-01-12 10:16:30,165 NE_RS_UNBLDRE: Unable to load application resource
 INFO 2025-01-12 10:16:55,120 Reloading the application... api\debug\debug.cpp:17 StXh@STXHNEC
 ERROR 2025-01-12 10:17:03,782 NE_RS_UNBLDRE: Unable to load application resource file /resources/images/screenshot.png api\debug\debug.cpp:20 StXh@STXHNEC
 ERROR 2025-01-12 10:25:50,186 NE_RS_UNBLDRE: Unable to load application resource file /resources/images/screenshot.png api\debug\debug.cpp:20 StXh@STXHNEC
+INFO 2025-01-13 20:06:50,564 Auth info was exported to ./.tmp/auth_info.json api\debug\debug.cpp:17 StXh@STXHNEC
+ERROR 2025-01-13 20:06:52,780 NE_RS_UNBLDRE: Unable to load application resource file /resources/js/NeutralinoMenuBar.min.js api\debug\debug.cpp:20 StXh@STXHNEC
