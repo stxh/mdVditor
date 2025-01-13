@@ -16,6 +16,7 @@
   "nativeAllowList": [
     "app.*",
     "os.*",
+    "window.*",
     "filesystem.*",
     "debug.log"
   ],
@@ -23,16 +24,16 @@
   },
   "modes": {
     "window": {
-      "title": "mdPad",
-      "width": 800,
-      "height": 500,
+      "title": "mdViewer",
+      "width": 900,
+      "height": 600,
       "minWidth": 400,
       "minHeight": 200,
       "center": true,
       "fullScreen": false,
       "alwaysOnTop": false,
       "icon": "/resources/icons/appIcon.png",
-      "enableInspector": true,
+      "enableInspector": false,
       "borderless": false,
       "maximize": false,
       "hidden": false,
@@ -63,7 +64,7 @@
     }
   },
   "cli": {
-    "binaryName": "mdPad",
+    "binaryName": "mdViewer",
     "resourcesPath": "/resources/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/resources/js/neutralino.js",
