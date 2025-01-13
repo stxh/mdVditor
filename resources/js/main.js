@@ -24,10 +24,8 @@ const menu = [{
         }],
         accelerator: "F2"
     }, {
-        label: "Menu Entry 3",
-        enabled: false,
-        id: "myMenuItem",
-        accelerator: "F3"
+        label: "Quit",
+        click: () => { onWindowClose() }
     }]
 }, {
     label: "&Option",
@@ -44,10 +42,29 @@ const menu = [{
     }]
 }];
 
+var fileOpened; // current opened file
+
 $(function() {
 
     const myMenu = Menu.buildFromTemplate(menu);
     Menu.setApplicationMenu(myMenu);
+
+    // Neutralino.os.getEnvs().then((envs)=>{
+    //     console.log(envs);
+    // });
+
+    // console.log("args->", NL_ARGS)
+    if (NL_ARGS.length > 1) {
+        fileOpened = NL_ARGS[1]
+        setTitle(fileOpened)
+        Neutralino.filesystem.readFile(fileOpened)
+            .then((contain) => {
+                $('#md').html(marked.parse(contain))
+            })
+            .catch((error) => {
+                console.error("读取文件出错:", error)
+            })
+    }
     
     // alert("ok");
     // $('#md').html(marked.parse('# Marked in the browser\n\nRendered by **marked**.'));
@@ -63,7 +80,9 @@ function openFile() {
         ]
       }) .then((filename) => {
         // console.log("open file:", filename)
-        Neutralino.filesystem.readFile(filename[0])
+        fileOpened = filename[0]
+        setTitle(fileOpened)
+        Neutralino.filesystem.readFile(fileOpened)
             .then((contain) => {
                 $('#md').html(marked.parse(contain))
             })
@@ -74,6 +93,16 @@ function openFile() {
       .catch((error) => {
         console.error("读取文件出错:", error); // 处理失败的情况
       });
+}
+
+function setTitle(fileOpened) {
+    let title
+    if (fileOpened) {
+        title = "mdViewer - " + fileOpened
+    } else {
+        title = "mdViewer"
+    }
+    Neutralino.window.setTitle(title).then(()=>{})
 }
 
 function showInfo() {
@@ -131,7 +160,7 @@ function onTrayMenuItemClicked(event) {
             break;
         case "QUIT":
             // Exit the application
-            Neutralino.app.exit();
+            onWindowClose();
             break;
     }
 }
