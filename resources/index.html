@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <title>mdPad</title>
-    <link rel="stylesheet" href="/css/github.css">
+    <link rel="stylesheet" href="/css/vditor.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <script src="/js/neutralino.js"></script>
-    <script src="/js/NeutralinoMenuBar.min.js"></script>
+    <!-- <script src="/js/i18n.js" type="module"></script> -->
+   
     <script src="/js/zepto.min.js"></script>
     <script src="/js/vditor.min.js"></script>
     <script src="/js/main.js"></script>
@@ -14,5 +16,15 @@
     <div id="contains">
       <div id="md"></div>
     </div>
+
+    <!-- About Dialog -->
+    <div id="about-dialog" class="dialog-overlay">
+      <div class="dialog-content">
+        <h2 data-i18n="aboutTitle">About</h2>
+        <p data-i18n="aboutContent">mdVditor is a desktop Markdown application developed using the neutralino framework. It combines the powerful backend capabilities of neutralino with modern web frontend js vditor technologies to provide a smooth and efficient Markdown editing experience.</p>
+        <button id="close-about" data-i18n="closeButton">Close</button>
+      </div>
+    </div>
+
   </body>
 </html>

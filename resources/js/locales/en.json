@@ -1,0 +1,11 @@
+{
+  "appTitle": "mdPad",
+  "newFile": "New",
+  "openFile": "Open File",
+  "save": "Save",
+  "saveAs": "Save As...",
+  "saveToast": "Save to file: ",
+  "aboutTitle": "About mdPad",
+  "aboutContent": "mdPad is a simple markdown editor built with Neutralino.js",
+  "closeButton": "Close"
+}
