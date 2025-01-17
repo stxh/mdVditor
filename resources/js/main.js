@@ -84,26 +84,60 @@ $(function () {
         ],
         toolbarConfig: { pin: true },
         after: (() => {
+            console.log("after " + $("img").attr("src"));
+
             if (NL_ARGS.length > 1 && NL_ARGS[1] != "") {
                 openMdFile(NL_ARGS[1])
             }
+
+            showLocalImage()
         }),
-        image: {
-            //isPreview: false,
-            preview: (bom) => {
-                console.log(bom)
-            },
-        },
         link: {
             click: (bom) => {
                 // console.log(bom)
                 Neutralino.os.open($(bom).text())
             }
         },
+
     })
 
 
 });
+
+// get file path
+function getFilePath(filename) {
+    if (filename) {
+        paths = filename.split('/')
+        paths.pop()
+        return paths.join("/")
+    } else {
+        return undefined
+    }
+}
+
+function startsWithHttpRegex(url) {
+    return /^https?:\/\//i.test(url); // i flag for case-insensitive matching
+}
+
+function showLocalImage() {
+    if (fileOpened === undefined) return
+    path = getFilePath(fileOpened)
+    console.log("file:"+fileOpened, "path:"+path)
+
+    // process all images
+    $("img").each(function(index) {
+        imgSrc = path + "/" + $(this).attr("src")
+        console.log(imgSrc)
+        if (!startsWithHttpRegex(imgSrc)) {
+            Neutralino.filesystem.readBinaryFile( imgSrc ).then(arrayBuffer => {
+                const blob = new Blob([arrayBuffer]);
+                $(this).attr("src", URL.createObjectURL(blob));
+            }).catch(error => {
+                console.log("Error loading image:", JSON.stringify(error))
+            });
+        }
+    });
+}
 
 // openFile open markdown file
 function openFile() {
@@ -116,6 +150,7 @@ function openFile() {
     }).then((filename) => {
         // console.log("open file:", filename)
         openMdFile(filename[0])
+        showLocalImage()
     })
         .catch((error) => {
             console.error("读取文件出错:", error); // 处理失败的情况
@@ -135,7 +170,7 @@ function openMdFile(name) {
 }
 
 function saveFile() {
-    if (fileOpened != "") {
+    if (fileOpened !== undefined) {
         saveToFile(fileOpened)
     } else {
         saveAsFile()
@@ -252,12 +287,9 @@ function onWindowClose() {
 // About Dialog Functionality
 function showAboutDialog() {
     $("#about-dialog").addClass("active")
-
-    //     // Apply translations
-    //     document.querySelectorAll('[data-i18n]').forEach(el => {
-    //         const key = el.getAttribute('data-i18n');
-    //         el.textContent = $i18n.t(key);
-    //     });
+    // Neutralino.resources.extractFile('/resources', 'e:/temp').then(()=>{
+    //     console.log('extractFile')
+    // })
 }
 
 function hideAboutDialog() {
