@@ -1,5 +1,5 @@
 neutralinojs.log
-dist
+/dist
 bin
 .architect
 bootstrap.css
