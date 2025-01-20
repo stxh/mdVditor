@@ -89,8 +89,6 @@ $(function () {
             if (NL_ARGS.length > 1 && NL_ARGS[1] != "") {
                 openMdFile(NL_ARGS[1])
             }
-
-            showLocalImage()
         }),
         link: {
             click: (bom) => {
@@ -119,26 +117,6 @@ function startsWithHttpRegex(url) {
     return /^https?:\/\//i.test(url); // i flag for case-insensitive matching
 }
 
-function showLocalImage() {
-    if (fileOpened === undefined) return
-    path = getFilePath(fileOpened)
-    console.log("file:"+fileOpened, "path:"+path)
-
-    // process all images
-    $("img").each(function(index) {
-        imgSrc = path + "/" + $(this).attr("src")
-        console.log(imgSrc)
-        if (!startsWithHttpRegex(imgSrc)) {
-            Neutralino.filesystem.readBinaryFile( imgSrc ).then(arrayBuffer => {
-                const blob = new Blob([arrayBuffer]);
-                $(this).attr("src", URL.createObjectURL(blob));
-            }).catch(error => {
-                console.log("Error loading image:", JSON.stringify(error))
-            });
-        }
-    });
-}
-
 // openFile open markdown file
 function openFile() {
     Neutralino.os.showOpenDialog('Open Markdown file', {
@@ -162,6 +140,26 @@ function openMdFile(name) {
     setTitle(name)
     Neutralino.filesystem.readFile(name)
         .then((contain) => {
+            path = getFilePath(name)
+            // console.log("file:"+name, "path:"+path)
+            
+            Neutralino.server.getMounts().then((resault)=>{
+                // console.log("getMount:", resault)
+                if (resault.hasOwnProperty("/")) {
+                    Neutralino.server.unmount("/").then(()=>{}).catch(()=>{})
+                } 
+                
+                Neutralino.server.mount("/", path)
+                .then((m)=>{
+                    console.log("-->server.mount: ", m)
+                })
+                .catch((error) => {
+                    console.error("mount出错:", error)
+                })
+            }).catch((error) => {
+                console.error("getMount error:", error)
+            })
+            
             vditor.setValue(contain)
         })
         .catch((error) => {
