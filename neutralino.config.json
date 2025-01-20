@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/neutralinojs/neutralinojs/main/schemas/neutralino.config.schema.json",
-  "applicationId": "js.neutralino.sample",
+  "applicationId": "js.mdVditor.com",
   "version": "1.0.0",
   "defaultMode": "window",
   "port": 0,
@@ -21,8 +21,7 @@
     "server.*",
     "debug.log"
   ],
-  "globalVariables": {
-  },
+  "globalVariables": {},
   "modes": {
     "window": {
       "title": "mdVditor",
@@ -42,24 +41,18 @@
       "exitProcessOnClose": true
     },
     "browser": {
-      "globalVariables": {       
-      },
-      "nativeBlockList": [
-      ]
+      "globalVariables": {},
+      "nativeBlockList": []
     },
     "cloud": {
       "url": "/resources/#cloud",
-      "nativeAllowList": [
-        "app.*"
-      ]
+      "nativeAllowList": ["app.*"]
     },
     "chrome": {
       "width": 800,
       "height": 500,
       "args": "--user-agent=\"Neutralinojs chrome mode\"",
-      "nativeBlockList": [
-        "os.*"
-      ]
+      "nativeBlockList": ["os.*"]
     }
   },
   "cli": {

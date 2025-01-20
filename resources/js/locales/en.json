@@ -1,11 +1,11 @@
 {
-  "appTitle": "mdPad",
+  "appTitle": "mdVditor",
   "newFile": "New",
   "openFile": "Open File",
   "save": "Save",
   "saveAs": "Save As...",
   "saveToast": "Save to file: ",
-  "aboutTitle": "About mdPad",
-  "aboutContent": "mdPad is a simple markdown editor built with Neutralino.js",
+  "aboutTitle": "About mdVditor",
+  "aboutContent": "mdVditor is a simple markdown editor built with Neutralino.js",
   "closeButton": "Close"
 }

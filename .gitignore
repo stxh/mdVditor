@@ -1,4 +1,5 @@
 neutralinojs.log
+.tmp
 /dist
 bin
 .architect
@@ -15,4 +16,3 @@ modern.jsonp
 resources/sass/.sass-cache/
 resources/.arch-internal-preview.css
 .arch-internal-preview.css
-
