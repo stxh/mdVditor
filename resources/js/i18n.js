@@ -1,10 +1,5 @@
 import i18next from "/dist/js/i18next/i18next.min.js";
 import LanguageDetector from "/dist/js/i18next/i18next-browser-languagedetector.min.js";
-// import { initReactI18next } from "/dist/js/i18next/react-i18next.min.js"; // 导入 react-i18next
-
-// 导入你的翻译资源
-// import translationEN from "./locales/en.json";
-// import translationZH from "./locales/zh.json";
 
 async function fetchJson(url, defaultValue = null) {
   try {
@@ -20,39 +15,35 @@ async function fetchJson(url, defaultValue = null) {
   }
 }
 
-function loadJson(url) {
-  fetchJson("url")
-    .then((json) => {
-      console.log(json);
-      return json;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  return "{}";
+async function loadResouse() {
+  const translationEN = await fetchJson("./locales/en.json");
+  const translationZH = await fetchJson("./locales/zh.json");
+  const resources = {
+      "en": {
+        translation: translationEN,
+      },
+      "zh-CN": {
+        translation: translationZH,
+      },
+    }
+  return resources
 }
 
-const translationEN = loadJson("./locales/en.json");
-const translationZH = loadJson("./locales/zh.json");
-
-i18next
+loadResouse().then((res)=>{
+  i18next
   .use(LanguageDetector)
   // .use(initReactI18next) // 将 i18next 实例传递给 react-i18next
   .init({
     fallbackLng: "en",
     debug: false,
-    resources: {
-      en: {
-        translation: translationEN,
-      },
-      zh: {
-        translation: translationZH,
-      },
-    },
+    resources: res,
     interpolation: {
       escapeValue: false,
     },
   });
+})
+
+
 
 // const i18n = createI18nStore(i18next);
 
