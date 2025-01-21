@@ -1,14 +1,43 @@
 import i18next from "/dist/js/i18next/i18next.min.js";
 import LanguageDetector from "/dist/js/i18next/i18next-browser-languagedetector.min.js";
-import { initReactI18next } from "/dist/js/i18next/react-i18next.min.js"; // 导入 react-i18next
+// import { initReactI18next } from "/dist/js/i18next/react-i18next.min.js"; // 导入 react-i18next
 
 // 导入你的翻译资源
-import translationEN from "./locales/en.json";
-import translationZH from "./locales/zh.json";
+// import translationEN from "./locales/en.json";
+// import translationZH from "./locales/zh.json";
+
+async function fetchJson(url, defaultValue = null) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching JSON:", error);
+    return defaultValue;
+  }
+}
+
+function loadJson(url) {
+  fetchJson("url")
+    .then((json) => {
+      console.log(json);
+      return json;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  return "{}";
+}
+
+const translationEN = loadJson("./locales/en.json");
+const translationZH = loadJson("./locales/zh.json");
 
 i18next
   .use(LanguageDetector)
-  .use(initReactI18next) // 将 i18next 实例传递给 react-i18next
+  // .use(initReactI18next) // 将 i18next 实例传递给 react-i18next
   .init({
     fallbackLng: "en",
     debug: false,
@@ -25,9 +54,9 @@ i18next
     },
   });
 
-const i18n = createI18nStore(i18next);
+// const i18n = createI18nStore(i18next);
 
-console.log(i18n.t("new"));
+console.log(i18next.t("new"));
 // export default i18n;
 
 // // 直接从 i18next 实例获取 t 函数
@@ -41,4 +70,4 @@ console.log(i18n.t("new"));
 //   return t(key, options);
 // }
 
-export default i18next; // 推荐导出 i18next 实例作为默认导出
+// export default i18next; // 推荐导出 i18next 实例作为默认导出
