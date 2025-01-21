@@ -169,7 +169,8 @@ function openFile() {
     .then((filename) => {
       // console.log("open file:", filename)
       openMdFile(filename[0]);
-      showLocalImage();
+      // showLocalImage();
+      autolog.log(fileOpened + " file opened", "success", 2500);
     })
     .catch((error) => {
       console.error("读取文件出错:", error); // 处理失败的情况
@@ -182,32 +183,33 @@ function openMdFile(name) {
   Neutralino.filesystem
     .readFile(name)
     .then((contain) => {
-      path = getFilePath(name);
-      // console.log("file:"+name, "path:"+path)
+      // use mount and unmount tech doesn't work
+      // path = getFilePath(name);
+      // // console.log("file:"+name, "path:"+path)
 
-      Neutralino.server
-        .getMounts()
-        .then((resault) => {
-          // console.log("getMount:", resault)
-          if (resault.hasOwnProperty("/")) {
-            Neutralino.server
-              .unmount("/")
-              .then(() => {})
-              .catch(() => {});
-          }
+      // Neutralino.server
+      //   .getMounts()
+      //   .then((resault) => {
+      //     // console.log("getMount:", resault)
+      //     if (resault.hasOwnProperty("/")) {
+      //       Neutralino.server
+      //         .unmount("/")
+      //         .then(() => {})
+      //         .catch(() => {});
+      //     }
 
-          Neutralino.server
-            .mount("/", path)
-            .then((m) => {
-              console.log("-->server.mount: ", m);
-            })
-            .catch((error) => {
-              console.error("mount出错:", error);
-            });
-        })
-        .catch((error) => {
-          console.error("getMount error:", error);
-        });
+      //     Neutralino.server
+      //       .mount("/", path)
+      //       .then((m) => {
+      //         console.log("-->server.mount: ", m);
+      //       })
+      //       .catch((error) => {
+      //         console.error("mount出错:", error);
+      //       });
+      //   })
+      //   .catch((error) => {
+      //     console.error("getMount error:", error);
+      //   });
 
       vditor.setValue(contain);
     })
@@ -219,6 +221,7 @@ function openMdFile(name) {
 function saveFile() {
   if (fileOpened !== undefined) {
     saveToFile(fileOpened);
+    autolog.log(fileOpened + "file saved", "success", 2500);
   } else {
     saveAsFile();
   }
@@ -227,7 +230,7 @@ function saveFile() {
 function saveAsFile() {
   Neutralino.os
     .showSaveDialog("Save to file", {
-      defaultPath: "untitled.md",
+      defaultPath: NL_CWD,
       filters: [
         { name: "markdown", extensions: ["md"] },
         { name: "txt", extensions: ["txt"] },
@@ -245,12 +248,13 @@ function saveAsFile() {
 
 // openFile open markdown file
 function saveToFile(name) {
-  // console.log("open file:", filename)
+  console.log("saveToFile: ", name);
   // fileOpened = name
   Neutralino.filesystem
     .writeFile(name, vditor.getValue())
     .then(() => {
       setTitle(name);
+      autolog.log(name + " file saved", "success", 2500);
     })
     .catch((error) => {
       console.error("存入文件出错:", error);
