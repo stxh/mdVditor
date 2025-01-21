@@ -1,30 +1,44 @@
-// i18n.js
-import i18next from 'i18next';
-import { createI18nStore } from 'svelte-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18next from "/dist/js/i18next/i18next.min.js";
+import LanguageDetector from "/dist/js/i18next/i18next-browser-languagedetector.min.js";
+import { initReactI18next } from "/dist/js/i18next/react-i18next.min.js"; // 导入 react-i18next
 
 // 导入你的翻译资源
-import translationEN from './locales/en.json';
-import translationZH from './locales/zh.json';
+import translationEN from "./locales/en.json";
+import translationZH from "./locales/zh.json";
 
-i18next.use(LanguageDetector) // 使用 LanguageDetector
+i18next
+  .use(LanguageDetector)
+  .use(initReactI18next) // 将 i18next 实例传递给 react-i18next
   .init({
-  //lng: 'zh', // 默认语言
-  fallbackLng: 'en', // 回退语言
-  debug: false, // 开启调试模式 (可选)
-  resources: {
-    en: {
-      translation: translationEN,
+    fallbackLng: "en",
+    debug: false,
+    resources: {
+      en: {
+        translation: translationEN,
+      },
+      zh: {
+        translation: translationZH,
+      },
     },
-    zh: {
-      translation: translationZH,
+    interpolation: {
+      escapeValue: false,
     },
-  },
-  interpolation: {
-    escapeValue: false, // Svelte 默认会转义，所以这里设置为 false
-  },
-});
+  });
 
 const i18n = createI18nStore(i18next);
 
-export default i18n;
+console.log(i18n.t("new"));
+// export default i18n;
+
+// // 直接从 i18next 实例获取 t 函数
+// const { t } = i18next;
+
+// // 导出 i18n 实例和 t 函数
+// export { i18next, t }; // 导出 i18next 实例，而不是自定义的 i18n 变量
+
+// // 导出翻译函数，方便直接使用 (可选，通常直接使用 t 更简洁)
+// export function translate(key, options) {
+//   return t(key, options);
+// }
+
+export default i18next; // 推荐导出 i18next 实例作为默认导出
