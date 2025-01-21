@@ -5,7 +5,11 @@
   "save": "保存",
   "saveAs": "另存为...",
   "saveToast": "保存到文件: ",
+  "setup": "设置",
+  "about": "关于",
   "aboutTitle": "关于 mdVditor",
+  "errorReadFile": "读取文件出错: ",
+  "errorSaveFile": "保存文件出错: ",
   "aboutContent": "mdVditor 是一个使用 Neutralino.js 构建的简单 Markdown 编辑器",
   "closeButton": "关闭"
 }

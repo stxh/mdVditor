@@ -5,6 +5,10 @@
   "save": "Save",
   "saveAs": "Save As...",
   "saveToast": "Save to file: ",
+  "setup": "Setup",
+  "about": "About",
+  "errorReadFile": "Read file error: ",
+  "errorSaveFile": "Save file error: ",
   "aboutTitle": "About mdVditor",
   "aboutContent": "mdVditor is a simple markdown editor built with Neutralino.js",
   "closeButton": "Close"
