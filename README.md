@@ -1,4 +1,4 @@
-# mdVditor Readme
+# ![](resources/icons/appicon.png)mdVditor Readme
 
 [简体中文](README.cn.md)
 

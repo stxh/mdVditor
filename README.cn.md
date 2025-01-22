@@ -1,4 +1,4 @@
-# **mdVditor Readme**
+# ![](resources/icons/appicon.png)**mdVditor Readme**
 
 [English](README.md)
 
