@@ -195,32 +195,18 @@ function openMdFile(name) {
     .readFile(name)
     .then((contain) => {
       // use mount and unmount tech doesn't work
-      // path = getFilePath(name);
+      // use setVDocRoot
+      path = getFilePath(name);
       // // console.log("file:"+name, "path:"+path)
 
-      // Neutralino.server
-      //   .getMounts()
-      //   .then((resault) => {
-      //     // console.log("getMount:", resault)
-      //     if (resault.hasOwnProperty("/")) {
-      //       Neutralino.server
-      //         .unmount("/")
-      //         .then(() => {})
-      //         .catch(() => {});
-      //     }
-
-      //     Neutralino.server
-      //       .mount("/", path)
-      //       .then((m) => {
-      //         console.log("-->server.mount: ", m);
-      //       })
-      //       .catch((error) => {
-      //         console.error("mount出错:", error);
-      //       });
-      //   })
-      //   .catch((error) => {
-      //     console.error("getMount error:", error);
-      //   });
+      Neutralino.server
+         .setVDocRoot(path)
+         .then((resault) => {
+            console.log("setVDocRoot:", resault)
+        })
+        .catch((error) => {
+          console.error("setVDocRoot error:", error);
+        });
 
       vditor.setValue(contain);
     })
@@ -232,7 +218,7 @@ function openMdFile(name) {
 function saveFile() {
   if (fileOpened !== undefined) {
     saveToFile(fileOpened);
-    autolog.log(fileOpened + "file saved", "success", 2500);
+    // autolog.log(fileOpened + "file saved", "success", 2500);
   } else {
     saveAsFile();
   }
