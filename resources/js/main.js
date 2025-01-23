@@ -202,13 +202,13 @@ function openMdFile(name) {
       Neutralino.server
          .setVDocRoot(path)
          .then((resault) => {
-            console.log("setVDocRoot:", resault)
+            // console.log("setVDocRoot:", resault)
+            vditor.setValue(contain);
         })
         .catch((error) => {
           console.error("setVDocRoot error:", error);
         });
 
-      vditor.setValue(contain);
     })
     .catch((error) => {
       console.error(i18next.t("errorReadFile"), error);
