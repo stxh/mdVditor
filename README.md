@@ -68,7 +68,7 @@ mdVditor is built using the Neutralinojs framework with Vditor.js as the front-e
 ```
 mdVditor/
 ├── neutralino.config.json      // Neutralinojs configuration file
-├── frontend/                  // Front-end code
+├── resources/                  // Front-end code
 │   ├── index.html
 │   ├── src/                   // JavaScript/TypeScript source code
 │   │   ├── main.js           // or main.ts
@@ -99,7 +99,7 @@ mdVditor/
   **JavaScript**
 
   ```
-  Neutralino.filesystem.readFile('./my-file.txt', (err, data) => {
+  Neutralino.filesystem.readFile('./my-file.md', (err, data) => {
       if (err) {
           console.error(err);
       } else {

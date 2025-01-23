@@ -9,7 +9,7 @@ var bChanged;
 
 // init
 function init() {
-  console.log("init");
+  // console.log("init");
   vditor = new Vditor("md", {
     theme: "classic",
     cdn: "",
@@ -129,7 +129,7 @@ function init() {
 $(function () {
   // autofit.init();
   loadResouse().then((res) => {
-    console.log(res);
+    // console.log(res);
     i18next.use(i18nextBrowserLanguageDetector).init({
       fallbackLng: "en",
       debug: false,
@@ -149,8 +149,6 @@ $(function () {
 function newFile() {
   fileOpend = undefined;
   vditor.setValue(i18next.t("newFile"));
-  alert(i18next.t("newFile"));
-  console.log(i18next.t("newFile"));
 }
 
 // get file path
@@ -178,9 +176,7 @@ function openFile() {
       if (filename.length == 0) {
         return;
       }
-      console.log("open file:", filename);
       openMdFile(filename[0]);
-      // showLocalImage();
       autolog.log(fileOpened + " file opened", "success", 2500);
     })
     .catch((error) => {
@@ -189,25 +185,28 @@ function openFile() {
 }
 
 function openMdFile(name) {
-  fileOpened = name;
-  setTitle(name);
+  path = getFilePath(name);
+  // console.log("file: "+name, "path: "+path)
+  if (path == "") { path = NL_CWD }
+  // console.log("file: "+name, "path: "+path)
+  
   Neutralino.filesystem
-    .readFile(name)
-    .then((contain) => {
-      // use mount and unmount tech doesn't work
-      // use setVDocRoot
-      path = getFilePath(name);
-      // // console.log("file:"+name, "path:"+path)
-
-      Neutralino.server
-         .setVDocRoot(path)
-         .then((resault) => {
-            // console.log("setVDocRoot:", resault)
-            vditor.setValue(contain);
-        })
-        .catch((error) => {
-          console.error("setVDocRoot error:", error);
-        });
+  .readFile(name)
+  .then((contain) => {
+    // use mount and unmount tech doesn't work
+    // use setVDocRoot
+    
+    fileOpened = name;
+    setTitle(name);
+    Neutralino.server
+        .setVDocRoot(path)
+        .then((resault) => {
+          // console.log("setVDocRoot:", resault)
+          vditor.setValue(contain);
+      })
+      .catch((error) => {
+        console.error("setVDocRoot error:", error);
+      });
 
     })
     .catch((error) => {
@@ -234,7 +233,7 @@ function saveAsFile() {
       ],
     })
     .then((filename) => {
-      console.log("save as file:", filename);
+      // console.log("save as file:", filename);
       fileOpened = filename;
       saveToFile(fileOpened);
     })
@@ -245,8 +244,7 @@ function saveAsFile() {
 
 // openFile open markdown file
 function saveToFile(name) {
-  console.log("saveToFile: ", name);
-  // fileOpened = name
+  // console.log("saveToFile: ", name);
   Neutralino.filesystem
     .writeFile(name, vditor.getValue())
     .then(() => {

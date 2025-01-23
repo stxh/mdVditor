@@ -69,7 +69,7 @@ mdVditor 基于 Neutralinojs 框架构建，前端使用 Vditor.js Markdown 编�
 ```
 mdVditor/
 ├── neutralino.config.json         // Neutralinojs 配置文件
-├── frontend/          // 前端代码
+├── resources/          // 前端代码
 │   ├── index.html
 │   ├── src/           // JavaScript/TypeScript 源代码
 │   │   ├── main.js      // 或 main.ts
@@ -100,7 +100,7 @@ mdVditor/
   **JavaScript**
 
   ```
-  Neutralino.filesystem.readFile('./my-file.txt', (err, data) => {
+  Neutralino.filesystem.readFile('./my-file.md', (err, data) => {
       if (err) {
           console.error(err);
       } else {
