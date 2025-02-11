@@ -23,7 +23,7 @@ function init() {
         className: "right",
         icon: '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="2 2 20 20"><path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7Z" clip-rule="evenodd"/></svg>',
         click() {
-          newFile();
+          clickNewFile();
         },
       },
       {
@@ -34,7 +34,7 @@ function init() {
         className: "right",
         icon: '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="2 2 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 0 0-2 2v12a2 2 0 0 0 .087.586l2.977-7.937A1 1 0 0 1 6 10h12V9a2 2 0 0 0-2-2h-4.532l-1.9-2.28A2 2 0 0 0 8.032 4H4Zm2.693 8H6.5l-3 8H18l3-8H6.693Z" clip-rule="evenodd"/></svg>',
         click() {
-          openFile();
+          clickOpenFile();
         },
       },
       {
@@ -112,6 +112,7 @@ function init() {
     toolbarConfig: { pin: true },
     input: () => {
       bChanged = true;
+      setWindowTitle();
     },
     after: () => {
       // console.log("after " + $("img").attr("src"));
@@ -161,8 +162,34 @@ function fixToolsTip() {
 }
 
 function newFile() {
-  fileOpened = undefined;
-  vditor.setValue(i18next.t("newFile"));
+  fileOpened = "";
+  bChanged = false;
+  vditor.setValue("");
+  setWindowTitle();
+}
+
+async function askSaveChanges() {
+  if (bChanged) {
+    var ok = await Neutralino.os.showMessageBox(
+      "Your markdown file changed",
+      "Do you want to save changes?",
+      "YES_NO_CANCEL",
+      "QUESTION",
+    );
+
+    if (ok === "YES") {
+      saveFile();
+    }
+    return ok;
+  }
+  return "YES";
+}
+
+async function clickNewFile() {
+  const ok = await askSaveChanges();
+  if (ok !== "CANCEL") {
+    newFile();
+  }
 }
 
 // get file path
@@ -201,6 +228,13 @@ function openFile() {
     });
 }
 
+async function clickOpenFile() {
+  const ok = await askSaveChanges();
+  if (ok !== "CANCEL") {
+    openFile();
+  }
+}
+
 function openMdFile(name) {
   path = getFilePath(name);
   // console.log("file: "+name, "path: "+path)
@@ -216,7 +250,7 @@ function openMdFile(name) {
       // use setVDocRoot
 
       fileOpened = name;
-      setTitle(name);
+      setWindowTitle();
       Neutralino.server
         .setVDocRoot(path)
         .then((resault) => {
@@ -266,7 +300,7 @@ function saveToFile(name) {
   Neutralino.filesystem
     .writeFile(name, vditor.getValue())
     .then(() => {
-      setTitle(name);
+      setWindowTitle();
       autolog.log(name + " file saved", "success", 2500);
     })
     .catch((error) => {
@@ -274,8 +308,9 @@ function saveToFile(name) {
     });
 }
 
-function setTitle(filename) {
+function setWindowTitle() {
   let title;
+  let filename = fileOpened ? fileOpened : "";
   if (filename) {
     title = APP_NAME + " - " + filename;
   } else {
@@ -284,29 +319,20 @@ function setTitle(filename) {
   if (bChanged) {
     title = title + " *";
   }
+
+  const saveButton = $('[data-type="save"]');
+  if (bChanged && filename) saveButton.removeClass("vditor-menu--disabled");
+  else saveButton.addClass("vditor-menu--disabled");
+
   Neutralino.window.setTitle(title).then(() => {});
 }
 
 /*
     Function to handle the window close event by gracefully exiting the Neutralino application.
 */
-function onWindowClose() {
-  if (bChanged) {
-    Neutralino.os
-      .showMessageBox(
-        "Save changes?",
-        "Do you want to save changes?",
-        "YES_NO_CANCEL",
-        "QUESTION",
-      )
-      .then((result) => {
-        alert(result);
-        if (result.response !== 0) {
-          saveFile();
-        }
-        //Neutralino.app.exit();
-      });
-  } else {
+async function onWindowClose() {
+  const ok = await askSaveChanges();
+  if (ok !== "CANCEL") {
     Neutralino.app.exit();
   }
 }
