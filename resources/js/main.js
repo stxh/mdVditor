@@ -5,7 +5,7 @@ const APP_NAME = "mdVditor";
 
 var fileOpened; // current opened file
 var vditor;
-var bChanged;
+var bChanged = false;
 
 // init
 function init() {
@@ -16,7 +16,7 @@ function init() {
     placeholder: "New file",
     toolbar: [
       {
-        hotkey: "^n",
+        hotkey: "⌘n",
         name: "new",
         tipPosition: "s",
         tip: i18next.t("newFile"),
@@ -27,7 +27,7 @@ function init() {
         },
       },
       {
-        hotkey: "^o",
+        hotkey: "⌘o",
         name: "open",
         tipPosition: "s",
         tip: i18next.t("openFile"),
@@ -38,7 +38,7 @@ function init() {
         },
       },
       {
-        hotkey: "^s",
+        hotkey: "⌘s",
         name: "save",
         tipPosition: "s",
         tip: i18next.t("save"),
@@ -49,7 +49,7 @@ function init() {
         },
       },
       {
-        hotkey: "^⇧s",
+        hotkey: "⇧⌘s",
         name: "save as",
         tipPosition: "s",
         tip: i18next.t("saveAs"),
@@ -87,18 +87,18 @@ function init() {
       "edit-mode",
       "|",
       {
-        hotkey: "^s",
+        hotkey: "⌘,",
         name: "setup",
         tipPosition: "s",
         tip: i18next.t("setup"),
         className: "right",
-        icon: '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_iconCarrier"><path d="M10.255 4.18806C9.84269 5.17755 8.68655 5.62456 7.71327 5.17535C6.10289 4.4321 4.4321 6.10289 5.17535 7.71327C5.62456 8.68655 5.17755 9.84269 4.18806 10.255C2.63693 10.9013 2.63693 13.0987 4.18806 13.745C5.17755 14.1573 5.62456 15.3135 5.17535 16.2867C4.4321 17.8971 6.10289 19.5679 7.71327 18.8246C8.68655 18.3754 9.84269 18.8224 10.255 19.8119C10.9013 21.3631 13.0987 21.3631 13.745 19.8119C14.1573 18.8224 15.3135 18.3754 16.2867 18.8246C17.8971 19.5679 19.5679 17.8971 18.8246 16.2867C18.3754 15.3135 18.8224 14.1573 19.8119 13.745C21.3631 13.0987 21.3631 10.9013 19.8119 10.255C18.8224 9.84269 18.3754 8.68655 18.8246 7.71327C19.5679 6.10289 17.8971 4.4321 16.2867 5.17535C15.3135 5.62456 14.1573 5.17755 13.745 4.18806C13.0987 2.63693 10.9013 2.63693 10.255 4.18806Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="paint-order: stroke; stroke: rgb(0, 0, 0);"></path><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke-width="2" style="paint-order: stroke; stroke: rgb(0, 0, 0);"></path></g></svg>',
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.85 22.25h-3.7c-.74 0-1.36-.54-1.45-1.27l-.27-1.89c-.27-.14-.53-.29-.79-.46l-1.8.72c-.7.26-1.47-.03-1.81-.65L2.2 15.53c-.35-.66-.2-1.44.36-1.88l1.53-1.19c-.01-.15-.02-.3-.02-.46 0-.15.01-.31.02-.46l-1.52-1.19c-.59-.45-.74-1.26-.37-1.88l1.85-3.19c.34-.62 1.11-.9 1.79-.63l1.81.73c.26-.17.52-.32.78-.46l.27-1.91c.09-.7.71-1.25 1.44-1.25h3.7c.74 0 1.36.54 1.45 1.27l.27 1.89c.27.14.53.29.79.46l1.8-.72c.71-.26 1.48.03 1.82.65l1.84 3.18c.36.66.2 1.44-.36 1.88l-1.52 1.19c.01.15.02.3.02.46s-.01.31-.02.46l1.52 1.19c.56.45.72 1.23.37 1.86l-1.86 3.22c-.34.62-1.11.9-1.8.63l-1.8-.72c-.26.17-.52.32-.78.46l-.27 1.91c-.1.68-.72 1.22-1.46 1.22zm-3.23-2h2.76l.37-2.55.53-.22c.44-.18.88-.44 1.34-.78l.45-.34 2.38.96 1.38-2.4-2.03-1.58.07-.56c.03-.26.06-.51.06-.78s-.03-.53-.06-.78l-.07-.56 2.03-1.58-1.39-2.4-2.39.96-.45-.35c-.42-.32-.87-.58-1.33-.77l-.52-.22-.37-2.55h-2.76l-.37 2.55-.53.21c-.44.19-.88.44-1.34.79l-.45.33-2.38-.95-1.39 2.39 2.03 1.58-.07.56a7 7 0 0 0-.06.79c0 .26.02.53.06.78l.07.56-2.03 1.58 1.38 2.4 2.39-.96.45.35c.43.33.86.58 1.33.77l.53.22.38 2.55z"></path><circle cx="12" cy="12" r="3.5"></circle></svg>',
         click() {
           showAboutDialog();
         },
       },
       {
-        hotkey: "^a",
+        hotkey: "⌘f1",
         name: "about",
         tipPosition: "s",
         tip: i18next.t("about"),
@@ -110,9 +110,14 @@ function init() {
       },
     ],
     toolbarConfig: { pin: true },
+    input: () => {
+      bChanged = true;
+    },
     after: () => {
       // console.log("after " + $("img").attr("src"));
       $("#md").css("height", "99%");
+      fixToolsTip();
+
       if (NL_ARGS.length > 1 && NL_ARGS[1] != "") {
         openMdFile(NL_ARGS[1]);
       }
@@ -142,12 +147,21 @@ $(function () {
     init();
   });
 
-  $("#close-about").click(hideAboutDialog);
+  $("#close-about").on("click", hideAboutDialog);
 });
 
 //===========================================
+function fixToolsTip() {
+  // 修复toolbar的tip弹出方向
+  const toolButtons = $("div.vditor-toolbar button");
+  toolButtons.removeClass(
+    "vditor-tooltipped__ne vditor-tooltipped__nw vditor-tooltipped__n",
+  );
+  toolButtons.addClass("vditor-tooltipped__s");
+}
+
 function newFile() {
-  fileOpend = undefined;
+  fileOpened = undefined;
   vditor.setValue(i18next.t("newFile"));
 }
 
@@ -167,6 +181,7 @@ function openFile() {
   Neutralino.os
     .showOpenDialog("Open Markdown file", {
       defaultPath: "",
+      multiSelections: false,
       filters: [
         { name: "markdown", extensions: ["md"] },
         { name: "txt", extensions: ["txt"] },
@@ -176,6 +191,8 @@ function openFile() {
       if (filename.length == 0) {
         return;
       }
+      console.log(filename);
+      alert(filename);
       openMdFile(filename[0]);
       autolog.log(fileOpened + " file opened", "success", 2500);
     })
@@ -187,27 +204,28 @@ function openFile() {
 function openMdFile(name) {
   path = getFilePath(name);
   // console.log("file: "+name, "path: "+path)
-  if (path == "") { path = NL_CWD }
+  if (path == "") {
+    path = NL_CWD;
+  }
   // console.log("file: "+name, "path: "+path)
-  
+
   Neutralino.filesystem
-  .readFile(name)
-  .then((contain) => {
-    // use mount and unmount tech doesn't work
-    // use setVDocRoot
-    
-    fileOpened = name;
-    setTitle(name);
-    Neutralino.server
+    .readFile(name)
+    .then((contain) => {
+      // use mount and unmount tech doesn't work
+      // use setVDocRoot
+
+      fileOpened = name;
+      setTitle(name);
+      Neutralino.server
         .setVDocRoot(path)
         .then((resault) => {
           // console.log("setVDocRoot:", resault)
           vditor.setValue(contain);
-      })
-      .catch((error) => {
-        console.error("setVDocRoot error:", error);
-      });
-
+        })
+        .catch((error) => {
+          console.error("setVDocRoot error:", error);
+        });
     })
     .catch((error) => {
       console.error(i18next.t("errorReadFile"), error);
@@ -263,6 +281,9 @@ function setTitle(filename) {
   } else {
     title = APP_NAME;
   }
+  if (bChanged) {
+    title = title + " *";
+  }
   Neutralino.window.setTitle(title).then(() => {});
 }
 
@@ -270,7 +291,24 @@ function setTitle(filename) {
     Function to handle the window close event by gracefully exiting the Neutralino application.
 */
 function onWindowClose() {
-  Neutralino.app.exit();
+  if (bChanged) {
+    Neutralino.os
+      .showMessageBox(
+        "Save changes?",
+        "Do you want to save changes?",
+        "YES_NO_CANCEL",
+        "QUESTION",
+      )
+      .then((result) => {
+        alert(result);
+        if (result.response !== 0) {
+          saveFile();
+        }
+        //Neutralino.app.exit();
+      });
+  } else {
+    Neutralino.app.exit();
+  }
 }
 
 // About Dialog Functionality
