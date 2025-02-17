@@ -193,8 +193,6 @@ function openFile() {
       if (filename.length == 0) {
         return;
       }
-      console.log(filename);
-      alert(filename);
       openMdFile(filename[0]);
       autolog.log(fileOpened + " file opened", "success", 2500);
     })
@@ -225,6 +223,7 @@ function openMdFile(name) {
       // use setVDocRoot
 
       fileOpened = name;
+      bChanged = false;
       setWindowTitle();
       Neutralino.server
         .setVDocRoot(path)
@@ -275,6 +274,7 @@ function saveToFile(name) {
   Neutralino.filesystem
     .writeFile(name, vditor.getValue())
     .then(() => {
+      bChanged = false;
       setWindowTitle();
       autolog.log(name + " file saved", "success", 2500);
     })
